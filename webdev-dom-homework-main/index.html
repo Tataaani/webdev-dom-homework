@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Проект "Комменты"</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="container">
+    <ul class="comments">
+      <li class="comment">
+        <div class="comment-header">
+          <div>Глеб Фокин</div>
+          <div>12.02.22 12:18</div>
+        </div>
+        <div class="comment-body">
+          <div class="comment-text">
+            Это будет первый комментарий на этой странице
+          </div>
+        </div>
+        <div class="comment-footer">
+          <div class="likes">
+            <span class="likes-counter">3</span>
+            <button class="like-button"></button>
+          </div>
+        </div>
+      </li>
+      <li class="comment">
+        <div class="comment-header">
+          <div>Варвара Н.</div>
+          <div>13.02.22 19:22</div>
+        </div>
+        <div class="comment-body">
+          <div class="comment-text">
+            Мне нравится как оформлена эта страница! ❤
+          </div>
+        </div>
+        <div class="comment-footer">
+          <div class="likes">
+            <span class="likes-counter">75</span>
+            <button class="like-button -active-like"></button>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="add-form">
+      <input type="text" class="add-form-name" placeholder="Введите ваше имя" />
+      <textarea type="textarea" class="add-form-text" placeholder="Введите ваш коментарий" rows="4"></textarea>
+      <div class="add-form-row">
+        <button class="add-form-button">Написать</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+<style>
+  .error {
+    background-color: red;
+  }
+</style>
+
+<script>
+  "use strict";
+
+  const listElement = document.querySelector(".comments");
+  const nameInputElement = document.querySelector(".add-form-name");
+  const textInputElement = document.querySelector(".add-form-text");
+  const buttonElement = document.querySelector(".add-form-button");
+
+  nameInputElement.addEventListener("click", () => {
+    nameInputElement.classList.remove("error");
+  });
+
+  textInputElement.addEventListener("click", () => {
+    textInputElement.classList.remove("error");
+  });
+
+  buttonElement.addEventListener("click", () => {
+
+    // nameInputElement.classList.remove("error");
+    // textInputElement.classList.remove("error");
+
+    if (nameInputElement.value === "" || textInputElement.value === "") {
+      if (nameInputElement.value === "") nameInputElement.classList.add("error");
+      if (textInputElement.value === "") textInputElement.classList.add("error");
+      return;
+    }
+
+    const date = new Date();
+    const d = ("0" + date.getDate()).slice(-2);
+    const m = ("0" + (date.getMonth() + 1)).slice(-2);
+    const y = date.getFullYear().toString().slice(-2);
+    const time = date.getHours() + ":" + ("0" + date.getMinutes()).slice(-2);
+    const fullDate = `${d}.${m}.${y} ${time}`;
+
+    const oldListHtml = listElement.innerHTML;
+    const newCommentHtml = `
+    <li class="comment">
+      <div class="comment-header">
+        <div>${nameInputElement.value}</div>
+        <div>${fullDate}</div>
+      </div>
+      <div class="comment-body">
+        <div class="comment-text">${textInputElement.value}</div>
+      </div>
+      <div class="comment-footer">
+        <div class="likes">
+          <span class="likes-counter">0</span>
+          <button class="like-button"></button>
+        </div>
+      </div>
+    </li>`;
+
+    listElement.innerHTML = oldListHtml + newCommentHtml;
+
+    nameInputElement.value = "";
+    textInputElement.value = "";
+  });
+  console.log("It works!");
+</script>
+
+</html>
